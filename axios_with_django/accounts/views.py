@@ -133,3 +133,4 @@ def follow(request, user_pk):
         return redirect('accounts:profile', you.username)
     return redirect('accounts:login')
 
+# 후후
