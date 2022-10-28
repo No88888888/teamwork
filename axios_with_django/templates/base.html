@@ -8,6 +8,7 @@
 </head>
 <body>
   <div class="container">
+    <h1><a href="{% url 'articles:index' %}" style="text-decoration:none; color:gray;">무한상사</a></h1>
     {% if request.user.is_authenticated %}
       <h3>{{ user }}</h3>
       <a href="{% url 'accounts:profile' user.username %}">내 프로필</a>

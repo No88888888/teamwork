@@ -11,6 +11,7 @@ from .forms import ArticleForm, CommentForm
 @require_safe
 def index(request):
     articles = Article.objects.all()
+    print(articles)
     context = {
         'articles': articles, # sss;;
     }
@@ -38,10 +39,16 @@ def create(request):
 @require_safe
 def detail(request, pk):
     article = Article.objects.get(pk=pk)
+
+    if article.like_users.filter(pk=article.pk).exists():
+        article_likes_count = article.like_users.filter(pk=article.pk).count()
+    else:
+        article_likes_count = 0
     comment_form = CommentForm()
     comments = article.comment_set.all()
     context = {
         'article': article,
+        'article_likes_count': article_likes_count,
         'comment_form': comment_form,
         'comments': comments,
     }
