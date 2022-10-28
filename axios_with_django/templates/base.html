@@ -8,19 +8,25 @@
 </head>
 <body>
   <div class="container">
-    <h1><a href="{% url 'articles:index' %}" style="text-decoration:none; color:gray;">무한상사</a></h1>
+    <div style="margin:auto; width:fit-content;">
+      <a href="{% url 'articles:index' %}"><img src="https://www.sportsq.co.kr/news/photo/201703/226594_215339_2531.png" style="height:10rem;"/></a>
+    </div>
     {% if request.user.is_authenticated %}
-      <h3>{{ user }}</h3>
-      <a href="{% url 'accounts:profile' user.username %}">내 프로필</a>
-      <form action="{% url 'accounts:logout' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Logout">
-      </form>
-      <form action="{% url 'accounts:delete' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="회원탈퇴">
-      </form>
-      <a href="{% url 'accounts:update' %}">회원정보수정</a>
+      <div style="text-align:right;">
+        <h3 style="text-align:right">{{ user }}</h3>
+        <a href="{% url 'accounts:profile' user.username %}" style="text-decoration:none;">내 프로필</a>
+        <div style="display:flex; justify-content:right;">
+          <form action="{% url 'accounts:logout' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Logout">
+          </form>
+          <form action="{% url 'accounts:delete' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="회원탈퇴">
+          </form>
+        </div>
+        <a href="{% url 'accounts:update' %}">회원정보수정</a>
+      </div>
     {% else %}
       <a href="{% url 'accounts:login' %}">Login</a>
       <a href="{% url 'accounts:signup' %}">Signup</a>
