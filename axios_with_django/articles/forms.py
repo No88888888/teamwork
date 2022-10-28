@@ -15,4 +15,4 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         # fields = '__all__'
-        exclude = ('article', 'user',)
+        exclude = ('article', 'user', 'like_comments')

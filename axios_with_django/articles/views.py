@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 from django.contrib.auth.decorators import login_required
 # from django.http import HttpResponse, HttpResponseForbidden
@@ -128,4 +128,21 @@ def likes(request, article_pk):
         }
         return JsonResponse(context)
     return redirect('accounts:login')
-    
+
+@require_POST
+def comment_likes(request, comment_pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, comment_pk)
+        
+        if comment.like_comments.filter(pk=request.user.pk).exists():
+            comment.like_comments.remove(request.user)
+            is_liked = False
+        else:
+            comment.like_comments.add(request.user)
+            is_liked = True
+        context = {
+            'is_liked': is_liked,
+            'comment_like_count': comment.like_comments.count(),
+        }
+        return JsonResponse(context)
+    return redirect('accounts:login')
