@@ -33,7 +33,7 @@
             {% csrf_token %}
             <input type="submit" value="DELETE">
           </form>
-
+        {% endif %}
           <div>
             <form class="like-forms" data-comment-id="{{ comment.pk }}">
               {% csrf_token %}
@@ -44,8 +44,7 @@
               {% endif %}
             </form>
           </div>
-          <div>{{ comment.like_comments.count }}</div>
-        {% endif %}
+          <div id="liked-{{comment.pk}}">{{comment.like_comments.count}}</div>
       </li>
     {% empty %}
       <li>댓글이 없어요...</li>
@@ -63,3 +62,45 @@
   {% endif %}
 {% endblock content %}
 
+{% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const forms = document.querySelectorAll('.like-forms')
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+    forms.forEach((form) => {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault()
+        // onsole.log(event.target.dataset)
+        const commentId = event.target.dataset.commentId
+        console.log(commentId)
+        axios({
+          method: 'post',
+          url: `http://127.0.0.1:8000/articles/comments/${commentId}/likes/`,
+          headers: {'X-CSRFToken': csrftoken},
+        })
+          .then((response) => {
+            // console.log(response)
+            // console.log(response.data)
+            console.log(response)
+            const comment_liked = response.data.is_liked
+
+            const likeBtn = document.querySelector(`#like-${commentId}`)
+            if (comment_liked === true) {
+              likeBtn.value = '좋아요 취소'
+            } else {
+              likeBtn.value = '좋아요'
+            }
+
+            const divTag = document.querySelector(`#liked-${commentId}`)
+            console.log(divTag)
+            divTag.innerText = response.data.comment_like_count
+            // likeBtn.value = isLiked ? '좋아요 취소' : '좋아요'
+          })
+          .catch((error) => {
+            console.log(error.response)
+          })
+      })
+    })
+  </script>
+{% endblock script %}
