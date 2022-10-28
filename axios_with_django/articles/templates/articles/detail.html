@@ -7,6 +7,7 @@
   <p><b>작성자 : {{ article.user }}</b></p>
   <p>제목 : {{ article.title }}</p>
   <p>내용 : {{ article.content }}</p>
+  <p>좋아요 : {{ article_likes_count }}</p>
   <p>작성 시각 : {{ article.created_at }}</p>
   <p>수정 시각 : {{ article.updated_at }}</p>
   {% if request.user == article.user %}
