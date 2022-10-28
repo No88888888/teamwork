@@ -12,7 +12,7 @@ from .forms import ArticleForm, CommentForm
 def index(request):
     articles = Article.objects.all()
     context = {
-        'articles': articles,
+        'articles': articles, # sss;;
     }
     return render(request, 'articles/index.html', context)
 
