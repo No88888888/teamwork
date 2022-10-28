@@ -11,10 +11,10 @@
   <p>작성 시각 : {{ article.created_at }}</p>
   <p>수정 시각 : {{ article.updated_at }}</p>
   {% if request.user == article.user %}
-    <a href="{% url 'articles:update' article.pk %}">UPDATE</a>
+    <a href="{% url 'articles:update' article.pk %}" style="padding-left:5px">UPDATE</a>
     <form action="{% url 'articles:delete' article.pk %}" method="POST">
       {% csrf_token %}
-      <input type="submit" value="DELETE">
+      <input type="submit" value="DELETE"  style="border:none; background-color:white;"> 
     </form>
   {% endif %}
   <hr>
@@ -27,24 +27,28 @@
   <ul>
     {% for comment in comments %}
       <li>
-        {{ comment.user }} - {{ comment.content }}
-        {% if request.user == comment.user %}
+        <div style="display:flex; justify-content:space-between;">
+          {{ comment.user }} - {{ comment.content }}
+          {% if request.user == comment.user %}
           <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="DELETE">
+            <input type="submit" value="DELETE" style="border:none;">
           </form>
+        </div>
         {% endif %}
-          <div>
-            <form class="like-forms" data-comment-id="{{ comment.pk }}">
-              {% csrf_token %}
-              {% if request.user in comment.like_comments.all %}
-                <input type="submit" value="좋아요 취소" id="like-{{ comment.pk }}">
-              {% else %}
-                <input type="submit" value="좋아요" id="like-{{ comment.pk }}">
-              {% endif %}
-            </form>
-          </div>
-          <div id="liked-{{comment.pk}}">{{comment.like_comments.count}}</div>
+        <div style="display:flex;">
+            <div>
+              <form class="like-forms" data-comment-id="{{ comment.pk }}">
+                {% csrf_token %}
+                {% if request.user in comment.like_comments.all %}
+                  <input type="submit" value="좋아요 취소" id="like-{{ comment.pk }}">
+                {% else %}
+                  <input type="submit" value="좋아요" id="like-{{ comment.pk }}">
+                {% endif %}
+              </form>
+            </div>
+            <div style="padding-left: 10px; padding-top:3px;" id="liked-{{comment.pk}}">{{comment.like_comments.count}}</div>
+        </div>
       </li>
     {% empty %}
       <li>댓글이 없어요...</li>
