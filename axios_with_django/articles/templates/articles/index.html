@@ -12,6 +12,10 @@
     </p>
     <p>글 번호 : {{ article.pk }}</p>
     <p>제목 : {{ article.title }}</p>
+    <div>
+      <span>좋아요: </span>
+      <span id="likeCount-{{ article.pk }}">{{ article.like_users.count }}</span>
+    </div>
     <p>내용 : {{ article.content }}</p>
     <div>
       <form class="like-forms" data-article-id="{{ article.pk }}">
@@ -37,7 +41,7 @@
     forms.forEach((form) => {
       form.addEventListener('submit', function (event) {
         event.preventDefault()
-        // onsole.log(event.target.dataset)
+        // console.log(event.target.dataset)
 
         const articleId = event.target.dataset.articleId
 
@@ -59,6 +63,9 @@
               likeBtn.value = '좋아요'
             }
             // likeBtn.value = isLiked ? '좋아요 취소' : '좋아요'
+            const likeCnt = response.data.likes_count
+            const likeCount = document.querySelector(`#likeCount-${ articleId}`)
+            likeCount.innerText = likeCnt
           })
           .catch((error) => {
             console.log(error.response)

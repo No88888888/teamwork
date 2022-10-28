@@ -39,16 +39,10 @@ def create(request):
 @require_safe
 def detail(request, pk):
     article = Article.objects.get(pk=pk)
-
-    if article.like_users.filter(pk=article.pk).exists():
-        article_likes_count = article.like_users.filter(pk=article.pk).count()
-    else:
-        article_likes_count = 0
     comment_form = CommentForm()
     comments = article.comment_set.all()
     context = {
         'article': article,
-        'article_likes_count': article_likes_count,
         'comment_form': comment_form,
         'comments': comments,
     }
@@ -132,6 +126,7 @@ def likes(request, article_pk):
             is_liked = True
         context = {
             'is_liked': is_liked,
+            'likes_count': article.like_users.count(),
         }
         return JsonResponse(context)
     return redirect('accounts:login')
