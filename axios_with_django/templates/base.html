@@ -18,14 +18,14 @@
         <div style="display:flex; justify-content:right;">
           <form action="{% url 'accounts:logout' %}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="Logout">
+            <input type="submit" value="Logout" style="border:gray 1px solid; background-color:white;">
           </form>
           <form action="{% url 'accounts:delete' %}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="회원탈퇴">
+            <input type="submit" value="회원탈퇴" style="border:gray 1px solid; background-color:white;">
           </form>
         </div>
-        <a href="{% url 'accounts:update' %}">회원정보수정</a>
+        <a href="{% url 'accounts:update' %}" style="text-decoration:none;">회원정보수정</a>
       </div>
     {% else %}
       <a href="{% url 'accounts:login' %}">Login</a>
