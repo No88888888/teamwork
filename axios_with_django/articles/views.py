@@ -138,9 +138,10 @@ def likes(request, article_pk):
 
 @require_POST
 def comment_likes(request, comment_pk):
+    print(1)
     if request.user.is_authenticated:
-        comment = get_object_or_404(Comment, comment_pk)
-        
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        print(2)
         if comment.like_comments.filter(pk=request.user.pk).exists():
             comment.like_comments.remove(request.user)
             is_liked = False
