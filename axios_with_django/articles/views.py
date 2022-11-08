@@ -133,7 +133,6 @@ def likes(request, article_pk):
 
 @require_POST
 def comment_likes(request, comment_pk):
-    print(1)
     if request.user.is_authenticated:
         comment = get_object_or_404(Comment, pk=comment_pk)
         print(2)
